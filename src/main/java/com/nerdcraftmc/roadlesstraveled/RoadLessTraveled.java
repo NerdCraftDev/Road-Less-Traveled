@@ -2,6 +2,8 @@ package com.nerdcraftmc.roadlesstraveled;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -13,7 +15,9 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
+import java.lang.reflect.Array;
 import java.util.HashMap;
+import java.util.List;
 
 @Mod(RoadLessTraveled.MODID)
 @Mod.EventBusSubscriber(modid = RoadLessTraveled.MODID)
@@ -81,7 +85,6 @@ public class RoadLessTraveled {
     public static void PlayerTick(TickEvent.PlayerTickEvent event /* On player tick */) {
         player = event.player;
         level = player.getLevel();
-        
         // If level is Server Side
         if (!level.isClientSide()) {
             // Location at player's feet
@@ -97,7 +100,8 @@ public class RoadLessTraveled {
                 // If 'block' is a key in 'nextBlock'
                 Block blockAbove = level.getBlockState(pos.above()).getBlock();
                 if (nextBlock.containsKey(block) && blockAbove == Blocks.AIR) {
-                    double rand = Math.ceil(Math.random() * (100.0 / chanceNum.get(block)));
+                    int featherLevel = player.getInventory().getArmor(0).getEnchantmentLevel(Enchantments.FALL_PROTECTION);
+                    double rand = Math.ceil(Math.random() * (100.0 / ((chanceNum.get(block) * (1 - 0.25 * featherLevel)))));
                     System.out.println(rand);
                     if (rand == 1.0) {
                         if (nextBlock.get(block) == Blocks.COBBLESTONE) {

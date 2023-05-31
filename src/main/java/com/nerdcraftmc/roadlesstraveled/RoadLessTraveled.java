@@ -102,7 +102,6 @@ public class RoadLessTraveled {
                 if (nextBlock.containsKey(block) && blockAbove == Blocks.AIR) {
                     int featherLevel = player.getInventory().getArmor(0).getEnchantmentLevel(Enchantments.FALL_PROTECTION);
                     double rand = Math.ceil(Math.random() * (100.0 / ((chanceNum.get(block) * (1 - 0.25 * featherLevel)))));
-                    System.out.println(rand);
                     if (rand == 1.0) {
                         if (nextBlock.get(block) == Blocks.COBBLESTONE) {
                             int x = 1;
